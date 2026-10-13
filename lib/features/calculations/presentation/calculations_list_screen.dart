@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/di/app_scope.dart';
+import '../../../core/utils/formatters.dart';
 import 'calculation_runner_screen.dart';
 
 class CalculationsListScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class CalculationsListScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
-                        IconData(strategy.iconCodePoint, fontFamily: 'MaterialIcons'),
+                        Formatters.getFormulaIcon(strategy.id),
                         color: const Color(0xFF1E3A8A),
                         size: 26,
                       ),

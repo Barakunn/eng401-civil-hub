@@ -17,9 +17,6 @@ class SoilBearingStrategy implements CalculationStrategy {
       'Terzaghi teorisi ile kohezyon, içsel sürtünme açısı ve temel boyutlarına göre nihai (qu) ve emniyetli (qsafe) taşıma gücü hesabı.';
 
   @override
-  int get iconCodePoint => 0xe3ae; // terrain / landscape icon
-
-  @override
   List<CalculationParam> get parameters => const [
         CalculationParam(
           key: 'cohesion',

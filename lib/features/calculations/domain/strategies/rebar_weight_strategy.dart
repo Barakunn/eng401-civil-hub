@@ -16,9 +16,6 @@ class RebarWeightStrategy implements CalculationStrategy {
       'Donatı çapı (Ø), boy, adet ve şantiye fire oranına göre toplam metraj, birim ağırlık ve sipariş tonaj hesabı.';
 
   @override
-  int get iconCodePoint => 0xe318; // iron / hardware icon
-
-  @override
   List<CalculationParam> get parameters => const [
         CalculationParam(
           key: 'diameter',

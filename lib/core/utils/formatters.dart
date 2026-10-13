@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import '../../features/calculations/domain/calculation_record.dart';
 
 class Formatters {
@@ -8,6 +9,20 @@ class Formatters {
     final hour = dt.hour.toString().padLeft(2, '0');
     final min = dt.minute.toString().padLeft(2, '0');
     return '$day.$month.$year $hour:$min';
+  }
+
+  /// Formül türüne göre sabit (tree-shakeable) ikon döner
+  static IconData getFormulaIcon(String formulaId) {
+    switch (formulaId) {
+      case 'concrete_strength':
+        return Icons.apartment_rounded;
+      case 'rebar_weight':
+        return Icons.grid_4x4_rounded;
+      case 'soil_bearing':
+        return Icons.landscape_rounded;
+      default:
+        return Icons.calculate_rounded;
+    }
   }
 
   /// Mühendisin şantiye şefine veya hocaya atacağı teknik metin raporu
@@ -43,4 +58,3 @@ class Formatters {
     return sb.toString();
   }
 }
-

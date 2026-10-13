@@ -135,7 +135,7 @@ class DashboardScreen extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor: const Color(0xFF1E3A8A).withAlpha(25),
                   child: Icon(
-                    IconData(s.iconCodePoint, fontFamily: 'MaterialIcons'),
+                    Formatters.getFormulaIcon(s.id),
                     color: const Color(0xFF1E3A8A),
                     size: 20,
                   ),

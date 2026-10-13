@@ -28,7 +28,6 @@ abstract class CalculationStrategy {
   String get title;
   String get category;
   String get description;
-  int get iconCodePoint; // Material icon code point
   
   /// Parametre listesi (Arayüz bu listeye göre dinamik ve optimize input üretir)
   List<CalculationParam> get parameters;

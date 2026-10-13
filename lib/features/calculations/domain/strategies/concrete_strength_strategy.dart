@@ -17,9 +17,6 @@ class ConcreteStrengthStrategy implements CalculationStrategy {
       'Su/Çimento oranı ve dozaja göre 28 günlük silindir karakteristik basınç dayanımı (fck) ve TS EN 206 sınıf hesabı.';
 
   @override
-  int get iconCodePoint => 0xe19a; // construction / architecture icon
-
-  @override
   List<CalculationParam> get parameters => const [
         CalculationParam(
           key: 'wc_ratio',
