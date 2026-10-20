@@ -75,7 +75,7 @@ class DashboardScreen extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
 
           // İstatistik Kartları
           AnimatedBuilder(
@@ -109,10 +109,10 @@ class DashboardScreen extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // MANSUR HOCA ÖZEL 7-GİRDİLİ WEB SERVİS MODÜLÜ
+          // 7-GİRDİLİ WEB SERVİS ALGORİTMASI KARTI
           Card(
             color: const Color(0xFF1E3A8A),
-            elevation: 2,
+            elevation: 1,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
@@ -139,32 +139,18 @@ class DashboardScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                'MANSUR HOCA MODÜLÜ',
-                                style: TextStyle(
-                                  color: Color(0xFFFBBF24),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 3),
                           Text(
-                            '7-Girdili Algoritma Web Servisi',
+                            '7-Girdili Algoritma Servisi',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 15,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 2),
+                          SizedBox(height: 3),
                           Text(
-                            'Mobil 7 textbox ile veri atar, web servis 1 çıktı döner.',
-                            style: TextStyle(color: Colors.white70, fontSize: 11),
+                            '7 Girdi (Input) → Web Servis → 1 Çıktı (Output)',
+                            style: TextStyle(color: Colors.white70, fontSize: 12),
                           ),
                         ],
                       ),

@@ -185,7 +185,7 @@ class _SyncScreenState extends State<SyncScreen> {
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        'Mansur Hoca ve inşaat ekibi ile ortak bulut API entegrasyonu.',
+                        'Ortak şantiye bulut API entegrasyonu.',
                         style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
                       ),
                       const SizedBox(height: 12),

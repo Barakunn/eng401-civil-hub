@@ -17,7 +17,7 @@ class RemoteAlgorithmScreen extends StatefulWidget {
 class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
   final _formKey = GlobalKey<FormState>();
   final _urlController = TextEditingController();
-  final _projectController = TextEditingController(text: '7-Girdili Algoritma Şantiye Testi');
+  final _projectController = TextEditingController(text: 'Algoritma Saha Hesabı');
   final RemoteAlgorithmService _apiService = RemoteAlgorithmService();
 
   // 7 Adet Textbox Controller'ı
@@ -31,16 +31,6 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
   RemoteCalculationResult? _latestResult;
   bool _isLoading = false;
   bool _isSaving = false;
-
-  final List<String> _paramHints = [
-    'x1: Toplama Grubu 1. Parametre',
-    'x2: Toplama Grubu 2. Parametre',
-    'x3: Toplama Grubu 3. Parametre',
-    'x4: Toplama Grubu 4. Parametre',
-    'x5: Çıkarma Grubu 1. Parametre',
-    'x6: Çıkarma Grubu 2. Parametre',
-    'x7: Çıkarma Grubu 3. Parametre',
-  ];
 
   @override
   void initState() {
@@ -88,8 +78,8 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
         SnackBar(
           content: Text(
             result.isMock
-                ? 'ℹ️ Web servisine ulaşılamadı, yerel simülasyonla hesaplandı (${result.responseTimeMs} ms)'
-                : '✅ Web servisinden 1 çıktı başarıyla alındı! (${result.responseTimeMs} ms)',
+                ? 'ℹ️ Simülasyon modu ile hesaplandı (${result.responseTimeMs} ms)'
+                : '✅ Web servisinden çıktı alındı! (${result.responseTimeMs} ms)',
           ),
           backgroundColor: result.isMock ? const Color(0xFFD97706) : const Color(0xFF0F766E),
         ),
@@ -114,8 +104,8 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
     final record = CalculationRecord(
       id: 'remote-${DateTime.now().millisecondsSinceEpoch}',
       formulaId: 'remote_7_inputs',
-      title: '7-Girdili Algoritma Web Servisi',
-      category: 'Web Servis & Algoritma',
+      title: '7-Girdili Algoritma Servisi',
+      category: 'Web Servis',
       projectName: _projectController.text.trim().isEmpty
           ? '7-Girdi Algoritması'
           : _projectController.text.trim(),
@@ -126,11 +116,11 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
           'Hesaplanan Çıktı': _latestResult!.output,
         },
         outputUnits: {
-          'Hesaplanan Çıktı': 'Birim',
+          'Hesaplanan Çıktı': '',
         },
-        summary: '${_latestResult!.formula} = ${_latestResult!.output} (${_latestResult!.details})',
+        summary: '${_latestResult!.formula} = ${_latestResult!.output}',
         isSafe: _latestResult!.isSafe,
-        warnings: _latestResult!.isSafe ? [] : ['Uyarı: Çıktı değeri negatif veya güvenlik sınırı altında!'],
+        warnings: _latestResult!.isSafe ? [] : ['Uyarı: Çıktı değeri negatif!'],
       ),
     );
 
@@ -149,24 +139,23 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
   void _copyResultToClipboard() {
     if (_latestResult == null) return;
     final sb = StringBuffer();
-    sb.writeln('📋 7-GİRDİLİ WEB SERVİS HESAP RAPORU');
+    sb.writeln('📋 7-GİRDİLİ HESAP RAPORU');
     sb.writeln('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     sb.writeln('Proje: ${_projectController.text}');
     sb.writeln('Tarih: ${Formatters.formatDate(_latestResult!.timestamp)}');
-    sb.writeln('Kaynak: ${_latestResult!.isMock ? "Yedek Simülasyon" : "Canlı Web Servisi (${_apiService.serverUrl})"}');
+    sb.writeln('Kaynak: ${_latestResult!.isMock ? "Yedek Simülasyon" : "Web Servisi"}');
     sb.writeln('');
-    sb.writeln('📥 7 GİRDİ:');
+    sb.writeln('📥 Girdiler:');
     _latestResult!.inputs.forEach((k, v) => sb.writeln(' • $k = $v'));
     sb.writeln('');
-    sb.writeln('📤 1 ÇIKTI (OUTPUT): ${_latestResult!.output}');
+    sb.writeln('📤 ÇIKTI (OUTPUT): ${_latestResult!.output}');
     sb.writeln('Formül: ${_latestResult!.formula}');
-    sb.writeln('Detay: ${_latestResult!.details}');
     sb.writeln('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
     Clipboard.setData(ClipboardData(text: sb.toString()));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Mühendislik raporu panoya kopyalandı!'),
+        content: Text('Rapor panoya kopyalandı!'),
         backgroundColor: Colors.black87,
       ),
     );
@@ -176,7 +165,7 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('7-Girdili Algoritma Servisi'),
+        title: const Text('7-Girdili Algoritma'),
         actions: [
           if (_latestResult != null)
             IconButton(
@@ -191,58 +180,33 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // Bilgi Banner'ı
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEFF6FF),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFFBFDBFE)),
-              ),
-              child: const Row(
-                children: [
-                  Icon(Icons.hub_rounded, color: Color(0xFF1E40AF), size: 24),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      'Mobil cihazdan 7 textbox ile parametreler toplanır, HTTP POST ile Web Servise iletilir ve sunucuda hesaplanan 1 çıktı ekranda gösterilir.',
-                      style: TextStyle(fontSize: 12, color: Color(0xFF1E3A8A), height: 1.3),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 14),
-
             // Web Servis Bağlantı Çubuğu
             AnimatedBuilder(
               animation: _apiService,
               builder: (context, _) {
                 return Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Container(
-                              width: 10,
-                              height: 10,
+                              width: 8,
+                              height: 8,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: _apiService.isOnline ? Colors.green : Colors.red,
+                                color: _apiService.isOnline ? Colors.green : Colors.grey,
                               ),
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              _apiService.isOnline
-                                  ? 'Web Servisi Çevrimiçi (Bağlı)'
-                                  : 'Web Servisine Ulaşılamadı (Simülasyon Modu Aktif)',
+                              _apiService.isOnline ? 'Servis Çevrimiçi' : 'Servis Çevrimdışı (Simülasyon Aktif)',
                               style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: _apiService.isOnline ? const Color(0xFF15803D) : const Color(0xFFB91C1C),
+                                fontWeight: FontWeight.w600,
+                                color: _apiService.isOnline ? const Color(0xFF15803D) : const Color(0xFF64748B),
                               ),
                             ),
                             const Spacer(),
@@ -253,12 +217,15 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
                                 child: CircularProgressIndicator(strokeWidth: 2),
                               )
                             else
-                              TextButton(
-                                onPressed: () {
+                              InkWell(
+                                onTap: () {
                                   _apiService.updateServerUrl(_urlController.text.trim());
                                   _apiService.checkServerHealth();
                                 },
-                                child: const Text('Test Et', style: TextStyle(fontSize: 12)),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                  child: Text('Test Et', style: TextStyle(fontSize: 12, color: Color(0xFF1E3A8A), fontWeight: FontWeight.bold)),
+                                ),
                               ),
                           ],
                         ),
@@ -266,11 +233,11 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
                         TextFormField(
                           controller: _urlController,
                           decoration: const InputDecoration(
-                            labelText: 'Web Servis Endpoint (POST)',
-                            prefixIcon: Icon(Icons.link_rounded),
+                            labelText: 'Web Servis Adresi (Endpoint)',
                             isDense: true,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           ),
-                          style: const TextStyle(fontSize: 13),
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -279,28 +246,27 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
               },
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 12),
 
             // Şantiye / Proje Adı
             TextFormField(
               controller: _projectController,
               decoration: const InputDecoration(
-                labelText: 'Şantiye / Hesaplama Başlığı',
-                prefixIcon: Icon(Icons.apartment_rounded),
+                labelText: 'Proje / Başlık',
+                prefixIcon: Icon(Icons.edit_note_rounded),
+                isDense: true,
               ),
             ),
             const SizedBox(height: 16),
 
-            // 7 Adet Textbox Girdisi
+            // 7 Adet Textbox Girdisi Başlığı
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.format_list_numbered_rounded, color: Color(0xFF1E3A8A), size: 20),
-                const SizedBox(width: 8),
                 const Text(
-                  '7 Girdi Parametresi (Inputs)',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                  'Girdi Parametreleri (7 Input)',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
                 ),
-                const Spacer(),
                 TextButton(
                   onPressed: () {
                     final defaults = [10, 20, 30, 40, 5, 10, 15];
@@ -308,94 +274,79 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
                       _inputControllers[i].text = defaults[i].toString();
                     }
                   },
-                  child: const Text('Sıfırla', style: TextStyle(fontSize: 12)),
+                  child: const Text('Varsayılana Sıfırla', style: TextStyle(fontSize: 12)),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
 
+            // 7 Girdi Kutucuğu (Sade, Kompakt)
             ...List.generate(7, (index) {
-              final isSumGroup = index < 4;
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 8),
                 child: TextFormField(
                   controller: _inputControllers[index],
                   keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true),
                   decoration: InputDecoration(
                     labelText: 'Girdi ${index + 1} (x${index + 1})',
-                    helperText: _paramHints[index],
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     prefixIcon: Container(
-                      width: 40,
+                      width: 36,
                       alignment: Alignment.center,
                       child: Text(
-                        isSumGroup ? '+x${index + 1}' : '-x${index + 1}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: isSumGroup ? const Color(0xFF15803D) : const Color(0xFFB91C1C),
-                        ),
+                        'x${index + 1}',
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1E3A8A), fontSize: 13),
                       ),
                     ),
                   ),
                   validator: (v) {
-                    if (v == null || v.trim().isEmpty) return 'Lütfen bir sayı girin';
-                    if (double.tryParse(v.trim()) == null) return 'Geçerli bir sayı olmalı';
+                    if (v == null || v.trim().isEmpty) return 'Sayı girin';
+                    if (double.tryParse(v.trim()) == null) return 'Geçersiz';
                     return null;
                   },
                 ),
               );
             }),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
-            // AKSİYON DÜĞMESİ (HESAPLAT)
+            // HESAPLA BUTONU
             ElevatedButton.icon(
               onPressed: _isLoading ? null : _executeRemoteCalculation,
               icon: _isLoading
                   ? const SizedBox(
-                      width: 20,
-                      height: 20,
+                      width: 18,
+                      height: 18,
                       child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                     )
-                  : const Icon(Icons.cloud_upload_rounded),
+                  : const Icon(Icons.calculate_rounded),
               label: Text(
-                _isLoading ? 'Web Servise Gönderiliyor...' : 'Web Serviste Hesaplat (HTTP POST)',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                _isLoading ? 'Hesaplanıyor...' : 'Hesapla (Web Servis)',
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1E3A8A),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 14),
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
 
             // 1 OUTPUT SONUÇ KARTI
             if (_latestResult != null) ...[
-              const Row(
-                children: [
-                  Icon(Icons.output_rounded, color: Color(0xFF0F766E), size: 20),
-                  SizedBox(width: 8),
-                  Text(
-                    'Web Servis Çıktısı (1 Output)',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
               _buildSingleOutputCard(_latestResult!),
-              const SizedBox(height: 14),
+              const SizedBox(height: 12),
 
-              // Cihaza Kaydet Butonu
               Row(
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: _isSaving ? null : _saveToLocalHistory,
                       icon: _isSaving
-                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                          ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2))
                           : const Icon(Icons.save_alt_rounded),
-                      label: const Text('Sonucu Cihaza Kaydet'),
-                      style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
+                      label: const Text('Cihaza Kaydet'),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -403,10 +354,9 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
                     child: ElevatedButton.icon(
                       onPressed: _copyResultToClipboard,
                       icon: const Icon(Icons.share_rounded),
-                      label: const Text('Raporu Paylaş'),
+                      label: const Text('Paylaş'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0F766E),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                     ),
                   ),
@@ -422,7 +372,7 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
 
   Widget _buildSingleOutputCard(RemoteCalculationResult res) {
     return Card(
-      elevation: 2,
+      elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
@@ -444,7 +394,7 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    res.isMock ? '🟡 Simülasyon' : '🟢 Canlı Web Servis',
+                    res.isMock ? 'Simülasyon' : 'Canlı Web Servis',
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -454,49 +404,38 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
                 ),
                 Text(
                   '${res.responseTimeMs} ms',
-                  style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                  style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
-            // Büyük 1 Output Değeri
             const Text(
-              'HESAPLANAN ÇIKTI',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 1),
+              'SONUÇ (OUTPUT)',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.8),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
             Text(
               res.output.toString(),
               style: TextStyle(
-                fontSize: 42,
+                fontSize: 38,
                 fontWeight: FontWeight.w900,
                 color: res.isSafe ? const Color(0xFF0F172A) : const Color(0xFFDC2626),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
 
-            // Formül Açıklaması
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: const Color(0xFFF8FAFC),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(6),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Formül: ${res.formula}',
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E3A8A)),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    res.details,
-                    style: const TextStyle(fontSize: 12, color: Color(0xFF475569)),
-                  ),
-                ],
+              child: Text(
+                'Formül: ${res.formula}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF1E3A8A)),
               ),
             ),
           ],
@@ -505,4 +444,3 @@ class _RemoteAlgorithmScreenState extends State<RemoteAlgorithmScreen> {
     );
   }
 }
-

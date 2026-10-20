@@ -59,6 +59,6 @@ void main() {
     expect(find.text('ENG401 PROJE'), findsOneWidget);
     expect(find.text('Panel'), findsOneWidget);
     expect(find.text('Hesaplar'), findsOneWidget);
-    expect(find.text('7-Girdili Algoritma Web Servisi'), findsOneWidget);
+    expect(find.text('7-Girdili Algoritma Servisi'), findsOneWidget);
   });
 }

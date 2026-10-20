@@ -14,17 +14,17 @@ class CalculationsListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('İnşaat Hesaplama Araçları'),
+        title: const Text('Hesaplama Araçları'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Mansur Hoca Özel 7-Girdili Web Servis Kartı
+          // 7-Girdili Algoritma Web Servisi Kartı
           Card(
-            color: const Color(0xFFF0FDF4),
+            color: const Color(0xFFF8FAFC),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              side: const BorderSide(color: Color(0xFF86EFAC), width: 1.5),
+              side: const BorderSide(color: Color(0xFFCBD5E1), width: 1.5),
             ),
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
@@ -41,10 +41,10 @@ class CalculationsListScreen extends StatelessWidget {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF16A34A).withAlpha(30),
+                        color: const Color(0xFF1E3A8A).withAlpha(20),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(Icons.cloud_sync_rounded, color: Color(0xFF16A34A), size: 28),
+                      child: const Icon(Icons.cloud_sync_rounded, color: Color(0xFF1E3A8A), size: 28),
                     ),
                     const SizedBox(width: 16),
                     const Expanded(
@@ -52,33 +52,22 @@ class CalculationsListScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'WEB SERVİS MODÜLÜ',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF16A34A),
-                            ),
-                          ),
-                          SizedBox(height: 2),
-                          Text(
-                            '7-Girdili Algoritma Web Servisi',
+                            '7-Girdili Algoritma Servisi',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF0F172A),
                             ),
                           ),
-                          SizedBox(height: 4),
+                          SizedBox(height: 3),
                           Text(
-                            'Mobil 7 textbox ile veri gönderir, sunucu 1 çıktı hesaplar.',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                            '7 Girdi (Input) → Web Servis → 1 Çıktı (Output)',
                             style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
                           ),
                         ],
                       ),
                     ),
-                    const Icon(Icons.chevron_right, color: Color(0xFF16A34A)),
+                    const Icon(Icons.chevron_right, color: Color(0xFF94A3B8)),
                   ],
                 ),
               ),
@@ -91,7 +80,7 @@ class CalculationsListScreen extends StatelessWidget {
           ),
 
           const Text(
-            'Lokal Saha Hesaplama Modülleri',
+            'Saha Hesaplama Modülleri',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF475569)),
           ),
           const SizedBox(height: 8),
