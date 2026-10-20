@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/di/app_scope.dart';
 import '../../../core/utils/formatters.dart';
 import '../../calculations/presentation/calculation_runner_screen.dart';
+import '../../remote_algorithm/presentation/remote_algorithm_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   final Function(int) onTabChange;
@@ -106,7 +107,76 @@ class DashboardScreen extends StatelessWidget {
             },
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
+
+          // MANSUR HOCA ÖZEL 7-GİRDİLİ WEB SERVİS MODÜLÜ
+          Card(
+            color: const Color(0xFF1E3A8A),
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const RemoteAlgorithmScreen()),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(30),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(Icons.cloud_sync_rounded, color: Colors.white, size: 28),
+                    ),
+                    const SizedBox(width: 14),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'MANSUR HOCA MODÜLÜ',
+                                style: TextStyle(
+                                  color: Color(0xFFFBBF24),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 3),
+                          Text(
+                            '7-Girdili Algoritma Web Servisi',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            'Mobil 7 textbox ile veri atar, web servis 1 çıktı döner.',
+                            style: TextStyle(color: Colors.white70, fontSize: 11),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white70, size: 14),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
 
           // Hızlı Hesaplama Araçları Başlığı
           Row(
@@ -300,4 +370,3 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 }
-
